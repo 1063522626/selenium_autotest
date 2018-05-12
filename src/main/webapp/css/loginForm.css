@@ -1,0 +1,4 @@
+table#login{style:"margin:0 auto"}
+body#loginbody{ background: url(/images/timg.jpg) }
+td.bc{background-color:#f0f8ff}
+[v-cloak]{display: none;}
