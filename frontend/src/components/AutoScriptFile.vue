@@ -158,6 +158,7 @@ export default {
           _this.historyList = _this.fileList.slice(0, 10)
         }
       })
+      this.pageNum = 1
     },
     changepages (page) {
       this.pageNum = page
