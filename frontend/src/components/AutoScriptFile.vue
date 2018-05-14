@@ -9,6 +9,7 @@
         multiple
         :show-upload-list="false"
         :on-success="handleSuccess"
+        :on-error="handleError"
         :format="['xlsx','xls']"
         :on-format-error="handleFormatError"
         action="//www.lubo.com:8080/upload">
@@ -95,6 +96,7 @@ export default {
   },
   methods: {
     remove (params) {
+      var _this = this
       this.$Modal.confirm(
         {
           title: '提示',
@@ -108,8 +110,8 @@ export default {
                 fileName: params.row.fileName
               })
             }).then(function (response) {
+              _this.refreshWindow()
             })
-            this.refreshWindow()
           },
           onCancel: () => {
 
@@ -118,20 +120,45 @@ export default {
       )
     },
     execute (params) {
-      this.$http({
-        method: 'post',
-        url: 'http://www.lubo.com:8080/executefile',
-        data: JSON.stringify({
-          fileName: params.row.fileName,
-          baseUrl: this.baseUrl,
-          browser: this.browser
+      if (this.baseUrl === '') {
+        this.$Modal.info(
+          {
+            title: '提示',
+            content: '请输入baseURL'
+          }
+        )
+      } else if (this.browser === '') {
+        this.$Modal.info(
+          {
+            title: '提示',
+            content: '请选择执行脚本的浏览器类型！'
+          }
+        )
+      } else {
+        this.$http({
+          method: 'post',
+          url: 'http://www.lubo.com:8080/executefile',
+          data: JSON.stringify({
+            fileName: params.row.fileName,
+            baseUrl: this.baseUrl,
+            browser: this.browser
 
+          })
+        }).then(function (response) {
         })
-      }).then(function (response) {
-      })
+      }
     },
     handleSuccess (response, file) {
+      console.log(response.data)
       this.refreshWindow()
+    },
+    handleError (response, file) {
+      this.$Modal.confirm(
+        {
+          title: '提示',
+          content: '文件已存在，请不要重复上传！'
+        }
+      )
     },
     handleFormatError () {
       this.$Modal.confirm(
@@ -145,7 +172,7 @@ export default {
       var _this = this
       this.$http({
         method: 'post',
-        url: 'http://www.lubo.com:8080/upload'
+        url: 'http://www.lubo.com:8080/refresh'
       }).then(function (response) {
         var names = response.data
         _this.fileList = []

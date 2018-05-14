@@ -1,6 +1,8 @@
 package sevenfresh.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -33,14 +35,19 @@ public class UploadController {
 
     @CrossOrigin(origins="*",maxAge=3600)
     @RequestMapping(value = "/upload")
-    public @ResponseBody List<String> uploadAutoScriptFile(MultipartFile file) {
+    public @ResponseBody ResponseEntity<?> uploadAutoScriptFile(MultipartFile file) {
 
-        List<String> fileNameList=new ArrayList<String>();
+        List<String> fileNameList=selectFilenameListService.selectFileList();
         String fileName;
         //文件判空
         if(null!=file&&!file.isEmpty()) {
             try {
                 fileName=file.getOriginalFilename();
+                if(fileNameList.contains(fileName))
+                {
+                    ResponseEntity responseEntity=new ResponseEntity(fileNameList,HttpStatus.BAD_REQUEST);
+                    return responseEntity;
+                }
                 String filePath = "E:\\AutoTestScript"+File.separator
                               +fileName;
                 file.transferTo(new File(filePath));
@@ -54,6 +61,7 @@ public class UploadController {
         }
         //查询数据库所有文件，返回文件名称列表
         fileNameList=selectFilenameListService.selectFileList();
-        return fileNameList;
+        ResponseEntity responseEntity=new ResponseEntity(fileNameList, HttpStatus.OK);
+        return responseEntity;
     }
 }
