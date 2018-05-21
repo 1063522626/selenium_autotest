@@ -36,7 +36,7 @@ public class ResolveScriptUtil {
         for(CellList cellList:excelInfo)
         {
             String elem=cellList.getElement();
-            if(elem.equals("窗口"))
+            if(elem.equals("浏览器"))
             {
                 ElementAction.windowAction(cellList,driver);
             }else if(elem.equals("文本框"))
@@ -57,6 +57,9 @@ public class ResolveScriptUtil {
             }else if(elem.equals("当前组件"))
             {
                 ElementAction.currentAction(cellList,driver);
+            }else if(elem.equals("多级下拉框"))
+            {
+                ElementAction.multiSelectAction(cellList,driver);
             }
 
         }

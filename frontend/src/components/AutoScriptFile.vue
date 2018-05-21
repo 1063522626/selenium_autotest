@@ -149,7 +149,6 @@ export default {
       }
     },
     handleSuccess (response, file) {
-      console.log(response.data)
       this.refreshWindow()
     },
     handleError (response, file) {

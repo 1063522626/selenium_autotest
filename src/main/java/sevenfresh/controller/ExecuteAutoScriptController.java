@@ -83,12 +83,13 @@ public class ExecuteAutoScriptController {
 
                         rowInfo.setIdentify(cell.getStringCellValue());
                     }else if(j==3){
+
+                        rowInfo.setHandle(cell.getStringCellValue());
+                    }else if(j==4){
+
                         //首先设置单元格数据类型，否则读取数字类型时报错
                         row.getCell(j).setCellType(Cell.CELL_TYPE_STRING);
                         rowInfo.setValue(cell.getStringCellValue());
-                    }else if(j==4){
-
-                        rowInfo.setHandle(cell.getStringCellValue());
                     }
                 }
             }

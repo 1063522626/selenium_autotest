@@ -24,10 +24,15 @@ public class ElementAction {
         {
             driver.quit();
             driver.close();
-        }else
+        }else if(value.equals("前进"))
         {
-            //暂时只支持最大化和关闭
-            driver.manage().window().fullscreen();
+            driver.navigate().forward();
+        }else if(value.equals("后退"))
+        {
+            driver.navigate().back();
+        }else if(value.equals("刷新"))
+        {
+            driver.navigate().refresh();
         }
 
     }
@@ -43,22 +48,79 @@ public class ElementAction {
     public static void currentAction(CellList currentInfo,WebDriver driver)
     {
         CellList elementInfo=currentInfo;
-        String value=elementInfo.getValue();
+        String identify=elementInfo.getIdentify();
         String handle=elementInfo.getHandle();
+        String value=elementInfo.getValue();
+
+        Actions action=new Actions(driver);
         if(handle.equals("输入"))
         {
-            Actions action=new Actions(driver);
+
             action.sendKeys(value).perform();
         }else if(handle.equals("单击"))
         {
-            Actions action=new Actions(driver);
+
             action.click().perform();
         }else if(handle.equals("双击"))
         {
-            Actions action=new Actions(driver);
+
             action.doubleClick().perform();
         }
 
+    }
+
+    public static void multiSelectAction(CellList multiSelectInfo,WebDriver driver)
+    {
+        CellList elementInfo=multiSelectInfo;
+        String itype=elementInfo.getItype();
+        String identify=elementInfo.getIdentify();
+        String handle=elementInfo.getHandle();
+        Actions action=new Actions(driver);
+        if (itype.equals("xpath"))
+        {
+            if(handle.equals("单击"))
+            {
+
+                action.click(driver.findElement(By.xpath(identify))).perform();
+            }else if(handle.equals("双击"))
+            {
+
+                action.doubleClick(driver.findElement(By.xpath(identify))).perform();
+            }
+        }else if(itype.equals("id"))
+        {
+            if(handle.equals("单击"))
+            {
+
+                action.click(driver.findElement(By.id(identify))).perform();
+            }else if(handle.equals("双击"))
+            {
+
+                action.doubleClick(driver.findElement(By.id(identify))).perform();
+            }
+        }else if(itype.equals("name"))
+        {
+            if(handle.equals("单击"))
+            {
+
+                action.click(driver.findElement(By.name(identify))).perform();
+            }else if(handle.equals("双击"))
+            {
+
+                action.doubleClick(driver.findElement(By.name(identify))).perform();
+            }
+        }else if(itype.equals("linktext"))
+        {
+            if(handle.equals("单击"))
+            {
+
+                action.click(driver.findElement(By.linkText(identify))).perform();
+            }else if(handle.equals("双击"))
+            {
+
+                action.doubleClick(driver.findElement(By.linkText(identify))).perform();
+            }
+        }
     }
 
     public static void tabAction(CellList tabInfo,WebDriver driver)
@@ -99,59 +161,61 @@ public class ElementAction {
         String identify=elementInfo.getIdentify();
         String handle=elementInfo.getHandle();
 
+        Actions action=new Actions(driver);
+
         if(itype.equals("id"))
         {
             if(handle.equals("单击"))
             {
-                Actions action=new Actions(driver);
+
                 action.click(driver.findElement(By.id(identify))).perform();
             }else if(handle.equals("双击"))
             {
-                Actions action=new Actions(driver);
+
                 action.doubleClick(driver.findElement(By.id(identify))).perform();
             }
         }else if(itype.equals("name"))
         {
             if(handle.equals("单击"))
             {
-                Actions action=new Actions(driver);
+
                 action.click(driver.findElement(By.name(identify))).perform();
             }else if(handle.equals("双击"))
             {
-                Actions action=new Actions(driver);
+
                 action.doubleClick(driver.findElement(By.name(identify))).perform();
             }
         }else if(itype.equals("xpath"))
         {
             if(handle.equals("单击"))
             {
-                Actions action=new Actions(driver);
+
                 action.click(driver.findElement(By.xpath(identify))).perform();
             }else if(handle.equals("双击"))
             {
-                Actions action=new Actions(driver);
+
                 action.doubleClick(driver.findElement(By.xpath(identify))).perform();
             }
         }else if(itype.equals("linktext"))
         {
             if(handle.equals("单击"))
             {
-                Actions action=new Actions(driver);
+
                 action.click(driver.findElement(By.linkText(identify))).perform();
             }else if(handle.equals("双击"))
             {
-                Actions action=new Actions(driver);
+
                 action.doubleClick(driver.findElement(By.linkText(identify))).perform();
             }
         }else if(itype.equals("class"))
         {
             if(handle.equals("单击"))
             {
-                Actions action=new Actions(driver);
+
                 action.click(driver.findElement(By.className(identify))).perform();
             }else if(handle.equals("双击"))
             {
-                Actions action=new Actions(driver);
+
                 action.doubleClick(driver.findElement(By.className(identify))).perform();
             }
         }
