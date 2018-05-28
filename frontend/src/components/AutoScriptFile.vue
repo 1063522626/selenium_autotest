@@ -204,7 +204,7 @@ export default {
   margin-top: 1px;
 }
 .scripttable{
-  width: 800px;
+  width: 765px;
   margin-left: 300px;
   margin-top: 100px;
   text-align: left;

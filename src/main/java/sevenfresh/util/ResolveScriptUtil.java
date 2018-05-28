@@ -60,6 +60,9 @@ public class ResolveScriptUtil {
             }else if(elem.equals("多级下拉框"))
             {
                 ElementAction.multiSelectAction(cellList,driver);
+            }else if(elem.equals("上传文件"))
+            {
+                ElementAction.uploadFileAction(cellList,driver);
             }
 
         }
