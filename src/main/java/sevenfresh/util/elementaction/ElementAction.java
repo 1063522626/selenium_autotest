@@ -16,23 +16,30 @@ public class ElementAction {
     public static void windowAction(CellList windowInfo,WebDriver driver){
 
         CellList elementInfo=windowInfo;
+        String handle=elementInfo.getHandle();
         String value=elementInfo.getValue();
-        if(value.equals("最大化"))
+        if(handle.equals("最大化"))
         {
             driver.manage().window().maximize();
-        }else if(value.equals("关闭"))
+        }else if(handle.equals("关闭"))
         {
             driver.quit();
             driver.close();
-        }else if(value.equals("前进"))
+        }else if(handle.equals("前进"))
         {
             driver.navigate().forward();
-        }else if(value.equals("后退"))
+        }else if(handle.equals("后退"))
         {
             driver.navigate().back();
-        }else if(value.equals("刷新"))
+        }else if(handle.equals("刷新"))
         {
             driver.navigate().refresh();
+        }else if(handle.equals("新窗口"))
+        {
+            Actions action=new Actions(driver);
+            action.sendKeys(Keys.CONTROL+"t").perform();
+            driver.get(value);
+
         }
 
     }
@@ -245,6 +252,25 @@ public class ElementAction {
             select.selectByVisibleText(value);
         }
 
+    }
+
+    public static void uploadFileAction(CellList uploadFileInfo,WebDriver driver)
+    {
+        CellList elementInfo=uploadFileInfo;
+        String itype=elementInfo.getItype();
+        String identify=elementInfo.getIdentify();
+        String value=elementInfo.getValue();
+
+        if(itype.equals("xpath"))
+        {
+            WebElement element=driver.findElement(By.xpath(identify));
+            element.sendKeys(value);
+        }
+    }
+
+    public static void switchToWindow(String title,WebDriver driver)
+    {
+        System.out.println("测试");
     }
 
 }
